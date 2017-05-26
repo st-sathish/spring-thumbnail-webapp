@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h4>Upload success</h4>
-	<h4>The product has been saved.</h4>
+	<h4>The image has been saved.</h4>
     <p>Following files are uploaded successfully.</p>
     <ol>
     <c:forEach items="${fileUpload.images}" var="image">
