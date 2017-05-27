@@ -1,5 +1,6 @@
 package com.ifaceinnovation.upload;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.ifaceinnovation.ImageUtils;
 
 @Controller
 public class FileUploadController {
@@ -43,6 +46,8 @@ public class FileUploadController {
                 System.out.println(imageFile.getAbsolutePath());
                 try {
                     multipartFile.transferTo(imageFile);
+                    String path = ImageUtils.createThumbnail(imageFile, 50, 50);
+                    System.out.println(path);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
