@@ -14,7 +14,7 @@
     <ol>
     <c:forEach items="${fileUpload.images}" var="image">
         <li>${image.originalFilename}
-        	<img width="100" src="<c:url value="/image/"/>${image.originalFilename}"/>
+        	<img width="100" src="${url}" />
         </li>
     </c:forEach>
     </ol>

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ifaceinnovation.GenericUtils;
 import com.ifaceinnovation.ImageUtils;
 
 @Controller
@@ -39,10 +40,14 @@ public class FileUploadController {
         List<MultipartFile> files = fileUpload.getImages();
         List<String> fileNames = new ArrayList<String>();
         if (null != files && files.size() > 0) {
+        	File imageDir = new File("F:\\storage\\images\\");
+        	if(!imageDir.exists()) {
+        		imageDir.mkdir();
+        	}
             for (MultipartFile multipartFile : files) {
                 String fileName = multipartFile.getOriginalFilename();
                 fileNames.add(fileName);
-                File imageFile = new File(servletRequest.getServletContext().getRealPath("/image"), fileName);
+                File imageFile = new File(imageDir+File.separator+fileName);
                 System.out.println(imageFile.getAbsolutePath());
                 try {
                     multipartFile.transferTo(imageFile);
@@ -54,12 +59,16 @@ public class FileUploadController {
             }
         }
         // Here, you can save the product details in database
+        String url = GenericUtils.getBaseUrl(servletRequest)+File.separator+"images";
+        System.out.println(url);
+        model.addAttribute("url", url);
         model.addAttribute("fileUpload", fileUpload);
         return "uploadSuccess";
     }
 	
 	@RequestMapping(value = "/upload-form")
-    public String inputProduct(Model model) {
+    public String inputProduct(HttpServletRequest servletRequest, Model model) {
+		System.out.println(GenericUtils.getBaseUrl(servletRequest));
         model.addAttribute("fileUpload", new FileUpload());
         return "fileUpload";
     }
